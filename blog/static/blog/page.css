@@ -1,0 +1,25 @@
+h1 {
+    text-align: center;
+    text-underline-offset: 1px solid;
+}
+
+.p-about,
+.p-posts {
+    padding: 0 120px;
+    width: 80%;
+}
+
+.div-contact {
+    text-align: center;
+    padding: 10px 0;
+}
+
+a {
+    text-decoration: none;
+    color: #16a016;
+}
+
+a:hover,
+a:active {
+    color: black;
+}

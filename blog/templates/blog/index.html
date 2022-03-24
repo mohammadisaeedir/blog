@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    My Blog
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/index.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/includes/header.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/includes/footer.css' %}">
+{% endblock css %}
+{% block content %}
+    {% include 'blog/includes/header.html' %}
+    <h1>Welcome to My Blog</h1>
+    <section id='latest_news'>
+        <ul>
+            <h2>Latest News</h2>
+            {% comment %} {% for  in  %} {% endcomment %}
+            <li>
+                <article>
+                    <a href="">
+                        <img src="" alt="">
+                        <div>
+                            <h3></h3>
+                            <p>
+                            </p>
+                        </div>
+                    </a>
+                </article>
+            </li>
+            {% comment %} {% endfor %} {% endcomment %}
+        </ul>
+    </section>
+    <section id='top_categories'>
+        <ul>
+            <h2>Top Categories</h2>
+            {% comment %} {% for  in  %} {% endcomment %}
+            <a href="">
+                <li>
+                    <img src="" alt="">
+                    <span></span>
+                </li>
+            </a>
+            {% comment %} {% endfor %} {% endcomment %}
+        </ul>
+    </section>
+    {% include 'blog/includes/footer.html' %}
+{% endblock content %}

@@ -12,11 +12,21 @@
             {% endblock title %}
         </title>
         <link rel="stylesheet" href="{% static 'style.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/includes/header.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/includes/footer.css' %}">
         {% block css %}
         {% endblock css %}
     </head>
     <body>
-        {% block content %}
-        {% endblock content %}
+        {% include 'blog/includes/header.html' %}
+        {% block about %}
+        {% endblock about %}
+        {% block contact %}
+        {% endblock contact %}
+        {% block categories %}
+        {% endblock categories %}
+        {% block posts %}
+        {% endblock posts %}
+        {% include 'blog/includes/footer.html' %}
     </body>
 </html>

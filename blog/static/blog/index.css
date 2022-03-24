@@ -1,0 +1,14 @@
+h1,
+h2 {
+    font-size: 24px;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+#top_categories,
+#latest_news {
+    margin: 4rem 0;
+}

@@ -1,0 +1,23 @@
+{% extends 'base_page.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block css %}
+    <link rel='stylesheet', href='{% static 'blog/page.css' %}'>
+{% endblock css %}
+{% block contact %}
+    <h1>{{ title|title }}</h1>
+    <div class='div-contact'>
+        phone: <a href="tel:{{ tell }}">{{ tell }}</a>
+    </div>
+    <div class='div-contact'>
+        Email: <a href="mailto:{{ email }}">{{ email }}</a>
+    </div>
+    <div class='div-contact'>
+        Address: {{ address }}
+    </div>
+    <div class='div-contact'>
+        Telegram: <a href="{{ telegram }}">My ID</a>
+    </div>
+{% endblock contact %}
