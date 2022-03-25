@@ -1,0 +1,17 @@
+h1 {
+    text-align: center;
+    text-underline-offset: 1px solid;
+}
+
+p {
+    width: 80%;
+}
+
+.img-post {
+    float: right;
+    border-radius: 10px;
+}
+
+article {
+    margin: 10px 80px;
+}

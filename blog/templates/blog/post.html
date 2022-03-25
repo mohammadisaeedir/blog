@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-    All Posts
+    {{ post.title }}
 {% endblock title %}
 {% block css %}
     <link rel="stylesheet" href= {% static 'blog/post.css' %}>
-    <link rel="stylesheet" href="{% static 'blog/includes/header.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/includes/footer.css' %}">
 {% endblock css %}
 {% block content %}
-    {% include 'blog/includes/header.html' %}
-    {% include 'blog/includes/footer.html' %}
-{% endblock content %}
+    <article>
+        <h1>{{ post.title|title }}</h1>
+        <img class='img-post' src="{% static 'blog/files/'|add:post.image %}" alt="{{ post.title }}">
+        <div>
+            {% comment %} <h3>category name</h3> {% endcomment %}
+            {% comment %} <h3>type of post</h3> {% endcomment %}
+            <p>
+               <b>The Excerpt:</b> {{ post.excerpt }}
+            </p>
+            <time>
+                <b>Last Modified at:</b> {{ post.updated_at }}
+            </time>
+            <p>
+                {{ post.content|linebreaks }}
+            </div>
+        </article>
+    {% endblock content %}

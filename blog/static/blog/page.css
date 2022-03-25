@@ -16,10 +16,20 @@ h1 {
 
 a {
     text-decoration: none;
-    color: #16a016;
+    color: black;
 }
 
 a:hover,
 a:active {
-    color: black;
+    color: #16a016;
+}
+
+ul {
+    list-style: none;
+    padding: 5px 0;
+}
+
+li {
+    display: inline-block;
+    margin-left: 5px;
 }
