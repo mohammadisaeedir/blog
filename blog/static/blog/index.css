@@ -5,10 +5,24 @@ h2 {
 }
 
 ul {
+    position: relative;
     list-style: none;
+    display: inline-block;
+    padding: 0;
+    margin: 0
 }
 
 #top_categories,
 #latest_news {
     margin: 4rem 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover,
+a:active {
+    color: #16a016;
 }

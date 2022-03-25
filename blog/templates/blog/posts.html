@@ -5,12 +5,13 @@
 {% endblock title %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'blog/page.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/includes/single-post.css' %}">
 {% endblock css %}
 {% block posts %}
     <h1>{{ title|title }}</h1>
-    <div>
-        <p class='p-posts'>
-            {{ text }}
-        </p>
-    </div>
+    <ul>
+        {% for post in posts %}
+            {% include 'blog/includes/post_single.html' %}
+        {% endfor %}
+    </ul>
 {% endblock posts %}

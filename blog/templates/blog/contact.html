@@ -9,15 +9,15 @@
 {% block contact %}
     <h1>{{ title|title }}</h1>
     <div class='div-contact'>
-        phone: <a href="tel:{{ tell }}">{{ tell }}</a>
+        <b>Phone:</b> <a href="tel:{{ tell }}">{{ tell }}</a>
     </div>
     <div class='div-contact'>
-        Email: <a href="mailto:{{ email }}">{{ email }}</a>
+        <b>Email:</b> <a href="mailto:{{ email }}">{{ email }}</a>
     </div>
+    <address class='div-contact'>
+        <b>Address:</b> {{ address }}
+    </address>
     <div class='div-contact'>
-        Address: {{ address }}
-    </div>
-    <div class='div-contact'>
-        Telegram: <a href="{{ telegram }}">My ID</a>
+        <b>Telegram:</b> <a href="{{ telegram }}">My ID</a>
     </div>
 {% endblock contact %}
