@@ -1,8 +1,10 @@
-{% extends 'base.hmtl' %}
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}
     404 Error
 {% endblock title %}
 {% block content %}
+    <img class='img-404' src="{% static 'files/404.png' %}" alt="404 Error">
     <p>
         No relevent Data, Try again later
     </p>
