@@ -1,5 +1,5 @@
 import re
-from django.http import HttpResponse, Http404, HttpResponseNotFound
+from django.http import Http404, HttpResponseNotFound
 from django.shortcuts import render
 from datetime import date
 
@@ -63,10 +63,6 @@ def get_date(post):
     return post['updated_at']
 
 
-def get_slug(post):
-    return post['slug']
-
-
 def index(request):
     sorted_posts = sorted(all_posts, key=get_date)
     list_posts = sorted_posts[-2:]
@@ -76,10 +72,13 @@ def index(request):
 
 
 def post_page(request, slug):
-    the_post = next(post for post in all_posts if post['slug'] == slug)
-    return render(request, 'blog/post.html', {
-        'post': the_post
-    })
+    try:
+        the_post = next(post for post in all_posts if post['slug'] == slug)
+        return render(request, 'blog/post.html', {
+            'post': the_post
+        })
+    except:
+        raise Http404()
 
 
 def cat_page(request, cat_slug):
@@ -123,4 +122,4 @@ def pages(request, page):
 
         })
     else:
-        return HttpResponseNotFound('404')
+        raise Http404()
