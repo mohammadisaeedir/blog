@@ -15,3 +15,7 @@ p {
 article {
     margin: 10px 80px;
 }
+
+.special {
+    color: red;
+}

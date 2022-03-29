@@ -1,17 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-    {{ title }}
+    {{ cat.title }}
 {% endblock title %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'blog/page.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/includes/single-post.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/includes/single_post.css' %}">
 {% endblock css %}
 {% block content %}
-    <h1>{{ title|title }}</h1>
-    <ul>
-        {% comment %} {% for  in  %} {% endcomment %}
-        {% include 'blog/includes/post_single.html' %}
-        {% comment %} {% endfor %} {% endcomment %}
-    </ul>
+    <h1>{{ cat.title|title }}</h1>
+    <section id='top-cats'>
+        {% if not catposts %}
+            <img class='nopost' src="{% static 'files/nopost.jpg' %}" alt="no post">
+        {% else %}
+            <ul>
+                {% for post in catposts %}
+                    {% include 'blog/includes/post_single.html' %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
 {% endblock content %}

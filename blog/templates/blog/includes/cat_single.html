@@ -1,0 +1,18 @@
+{% load static %}
+<li class='li-sec'>
+    <article>
+        <a href="{% url 'cat_page' cat.slug %}">
+            {% if cat.image == '' %}
+                <img src="{% static 'files/mysite.png' %}" alt="{{ cat.title }}">
+            {% else %}
+                <img src="{{ cat.image.url }}" alt="{{ cat.title }}">
+            {% endif %}
+            <div>
+                <h3>{{ cat.title|title }}</h3>
+                <time>
+                    {{ cat.updated_at }}
+                </time>
+            </div>
+        </a>
+    </article>
+</li>

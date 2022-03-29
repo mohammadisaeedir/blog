@@ -1,3 +1,101 @@
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
+
+
+class BlogOptions(models.Model):
+    about = models.TextField()
+    phone = models.CharField(max_length=18)
+    email = models.EmailField()
+    address = models.CharField(max_length=100)
+    telegram = models.URLField()
+
+    class Meta:
+        verbose_name_plural = 'Blog Options'
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=30)
+    order = models.PositiveIntegerField()
+    image = models.ImageField(upload_to='static/blog/files', blank=True)
+    slug = models.SlugField(null=False, db_index=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL,
+                               null=True, blank=True,)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+        unique_together = [['parent', 'slug']]
+
+    def save(self, *args, **kwargs):
+        counter = 2
+        if not self.slug:
+            slug = slugify(self.title)
+            exists = Category.objects.filter(slug=slug)
+            while exists:
+                newslug = slug + '-' + str(counter)
+                exists = Category.objects.filter(slug=newslug)
+                counter += 1
+                if not exists:
+                    slug = newslug
+                    break
+        else:
+            slug = self.slug
+            exists = Category.objects.filter(slug=slug).exclude(pk=self.id)
+            while exists:
+                newslug = slug + '-' + str(counter)
+                exists = Category.objects.filter(slug=newslug)
+                counter += 1
+                if not exists:
+                    slug = newslug
+                    break
+
+        self.slug = slug
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        if self.parent == None:
+            return self.title
+        else:
+            return f'{self.parent} -> {self.title}'
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    category = models.ForeignKey(
+        'Category', on_delete=models.SET_NULL, null=True, blank=True, related_name='categories')
+    image = models.ImageField(upload_to='static/blog/files', blank=True)
+    is_special = models.BooleanField(default=False)
+    excerpt = models.CharField(max_length=100, default='')
+    content = models.TextField(null=True)
+    slug = models.SlugField(null=False, db_index=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        counter = 2
+        if not self.slug:
+            slug = slugify(self.title)
+            exists = Post.objects.filter(slug=slug)
+            while exists:
+                newslug = slug + '-' + str(counter)
+                exists = Post.objects.filter(slug=newslug)
+                counter += 1
+                if not exists:
+                    slug = newslug
+                    break
+        else:
+            slug = self.slug
+            exists = Post.objects.filter(slug=slug).exclude(pk=self.id)
+            while exists:
+                newslug = slug + '-' + str(counter)
+                exists = Post.objects.filter(slug=newslug)
+                counter += 1
+                if not exists:
+                    slug = newslug
+                    break
+
+        self.slug = slug
+        super().save(*args, **kwargs)

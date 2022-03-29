@@ -5,13 +5,15 @@
 {% endblock title %}
 {% block css %}
     <link rel="stylesheet" href= {% static 'blog/page.css' %}>
+    <link rel="stylesheet" href="{% static 'blog/includes/cat_single.css' %}">
 {% endblock css %}
 {% block categories %}
     <h1>{{ title|title }}</h1>
-    <div>
-        <img src="" alt="category_image">
-        <p class='p-posts'>
-            {{ text }}
-        </p>
-    </div>
+    <section id='top-cats'>
+        <ul>
+            {% for cat in categories %}
+            {% include 'blog/includes/cat_single.html' %}
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock categories %}
