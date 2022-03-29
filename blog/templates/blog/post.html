@@ -9,18 +9,30 @@
 {% block content %}
     <article>
         <h1>{{ post.title|title }}</h1>
-        <img class='img-post' src="{% static 'blog/files/'|add:post.image %}" alt="{{ post.title }}">
+        {% if post.image == '' %}
+            <img class='img-post' src="{% static 'files/mysite.png' %}" alt="{{ post.title }}">
+        {% else %}
+            <img class='img-post' src="{{ post.image.url }}", alt="{{ post.title }}">
+        {% endif %}
         <div>
-            {% comment %} <h3>category name</h3> {% endcomment %}
-            {% comment %} <h3>type of post</h3> {% endcomment %}
+            <h3>category: {{ category }}</h3>
+            {% if post.is_special == True %}
+                <h4 class='special'>Special Book</h4>
+            {% else %}
+                <h4>Normal Book</h4>
+            {% endif %}
             <p>
-               <b>The Excerpt:</b> {{ post.excerpt }}
-            </p>
-            <time>
-                <b>Last Modified at:</b> {{ post.updated_at }}
-            </time>
-            <p>
-                {{ post.content|linebreaks }}
-            </div>
-        </article>
-    {% endblock content %}
+                <b>The Excerpt:</b> {{ post.excerpt }}
+        </p>
+        <time>
+            <b>Created at:</b> {{ post.created_at }}
+    </time>
+</br>
+<time>
+    <b>Updated at:</b> {{ post.updated_at }}
+</time>
+<p>
+    {{ post.content|linebreaks }}
+</div>
+</article>
+{% endblock content %}
