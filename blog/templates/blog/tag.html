@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ tag.title }}
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/page.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/includes/single_post.css' %}">
+{% endblock css %}
+{% block content %}
+    <h1>{{ tag.title|title }}</h1>
+    <section id='top-cats'>
+        {% if not tagposts %}
+            <img class='nopost' src="{% static 'files/nopost.jpg' %}" alt="no post">
+        {% else %}
+            <ul>
+                {% for post in tagposts %}
+                    {% include 'blog/includes/post_single.html' %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
+{% endblock content %}

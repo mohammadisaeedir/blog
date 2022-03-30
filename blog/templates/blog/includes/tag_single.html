@@ -1,0 +1,9 @@
+<li class='li-sec'>
+    <article>
+        <a href="{% url 'tag_page' tag.slug %}">
+            <div>
+                <h4>{{ tag.title }}({{ tag.get_tag_count }})</h4>
+            </div>
+        </a>
+    </article>
+</li>

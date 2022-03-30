@@ -10,12 +10,24 @@
     <article>
         <h1>{{ post.title|title }}</h1>
         {% if post.image == '' %}
-            <img class='img-post' src="{% static 'files/mysite.png' %}" alt="{{ post.title }}">
+            <img class='img-post'
+                 src="{% static 'files/mysite.png' %}"
+                 alt="{{ post.title }}">
         {% else %}
             <img class='img-post' src="{{ post.image.url }}", alt="{{ post.title }}">
         {% endif %}
         <div>
-            <h3>category: {{ category }}</h3>
+            <h3>
+                category: <a href="{% url 'cat_page' category.slug %}">{{ category_name }}</a>
+            </h3>
+            {% if not tags %}
+                <h6>There is no tag available for this post</h6>
+            {% else %}
+                <h4>
+                    Tags:
+                    {% for tag in tags  %}<a href="{{ tag.get_absolute_url }}">{{ tag.title }}</a>,{% endfor %}
+                </h4>
+            {% endif %}
             {% if post.is_special == True %}
                 <h4 class='special'>Special Book</h4>
             {% else %}
@@ -32,7 +44,7 @@
     <b>Updated at:</b> {{ post.updated_at }}
 </time>
 <p>
-    {{ post.content|linebreaks }}
+    {{ post.content| safe }}
 </div>
 </article>
 {% endblock content %}
