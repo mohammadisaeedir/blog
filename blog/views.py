@@ -1,6 +1,7 @@
 from .models import *
-from django.http import Http404, HttpResponseNotFound
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
 
 
 def index(request):
@@ -36,7 +37,7 @@ def cat_page(request, cat_slug):
 
 def tag_page(request, tag_slug):
     the_tag = get_object_or_404(Tag, slug=tag_slug)
-    tag_posts = Tag.get_tag_posts(tag_slug)
+    tag_posts = Tag.get_tag_posts(the_tag.id)
     return render(request, 'blog/tag.html', {
         'tag': the_tag,
         'tagposts': tag_posts
@@ -72,7 +73,7 @@ def pages(request, page):
         alltags = Tag.objects.all()
         return render(request, 'blog/tags.html', {
             'title': 'all Tags',
-            'tags': alltags
+            'tags': alltags,
 
         })
     else:

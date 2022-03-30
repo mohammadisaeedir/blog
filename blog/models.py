@@ -1,6 +1,7 @@
-from turtle import title
+from tkinter import Widget
 from django.db import models
 from django.utils.text import slugify
+from django.urls import reverse
 
 # Create your models here.
 
@@ -102,10 +103,18 @@ class Tag(models.Model):
         self.slug = slug
         super().save(*args, **kwargs)
 
-    def get_tag_posts(tag_slug):
-        tagpost = Tag.objects.get(slug=tag_slug)
+    def get_tag_posts(tagid):
+        tagpost = Tag.objects.get(id=tagid)
         tag_posts = tagpost.tags.all()
         return tag_posts
+
+    def get_tag_count(self):
+        tagpost = Tag.objects.get(id=self.id)
+        tag_posts_count = tagpost.tags.all().count()
+        return tag_posts_count
+
+    def get_absolute_url(self):
+        return reverse("tag_page", args=[self.slug])
 
 
 class Post(models.Model):

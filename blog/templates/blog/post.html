@@ -26,7 +26,7 @@
                 <h4>
                     Tags:
                     {% for tag in tags  %}
-                        <a href="{% url 'tag_page' tag.slug %}">{{ tag.title }}</a>,
+                        <a href="{{tag.get_absolute_url}}">{{ tag.title }}</a>,
                 {% endfor %}
             </h4>
         {% endif %}
