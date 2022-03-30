@@ -10,23 +10,37 @@
     <article>
         <h1>{{ post.title|title }}</h1>
         {% if post.image == '' %}
-            <img class='img-post' src="{% static 'files/mysite.png' %}" alt="{{ post.title }}">
+            <img class='img-post'
+                 src="{% static 'files/mysite.png' %}"
+                 alt="{{ post.title }}">
         {% else %}
             <img class='img-post' src="{{ post.image.url }}", alt="{{ post.title }}">
         {% endif %}
         <div>
-            <h3>category: {{ category }}</h3>
-            {% if post.is_special == True %}
-                <h4 class='special'>Special Book</h4>
+            <h3>
+                category: <a href="{% url 'cat_page' category.slug %}">{{ category_name }}</a>
+            </h3>
+            {% if not tags %}
+                <h6>There is no tag available for this post</h6>
             {% else %}
-                <h4>Normal Book</h4>
-            {% endif %}
-            <p>
-                <b>The Excerpt:</b> {{ post.excerpt }}
-        </p>
-        <time>
-            <b>Created at:</b> {{ post.created_at }}
-    </time>
+                <h4>
+                    Tags:
+                    {% for tag in tags  %}
+                        <a href="{% url 'tag_page' tag.slug %}">{{ tag.title }}</a>,
+                {% endfor %}
+            </h4>
+        {% endif %}
+        {% if post.is_special == True %}
+            <h4 class='special'>Special Book</h4>
+        {% else %}
+            <h4>Normal Book</h4>
+        {% endif %}
+        <p>
+            <b>The Excerpt:</b> {{ post.excerpt }}
+    </p>
+    <time>
+        <b>Created at:</b> {{ post.created_at }}
+</time>
 </br>
 <time>
     <b>Updated at:</b> {{ post.updated_at }}

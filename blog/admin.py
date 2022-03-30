@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogOptions, Category, Post
+from .models import *
 
 # # Register your models here.
 
@@ -21,9 +21,16 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'is_special',
                     'created_at', 'updated_at', 'slug',)
     prepopulated_fields = {'slug': ('title',)}
-    list_editable = ('is_special','category')
+    list_editable = ('is_special', 'category')
+    filter_horizontal = ('posttag',)
+
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('title', 'order', 'slug')
+    prepopulated_fields = {'slug': ('title',)}
 
 
 admin.site.register(BlogOptions, BlogOptionsAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Tag, TagAdmin)

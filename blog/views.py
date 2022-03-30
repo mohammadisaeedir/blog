@@ -3,7 +3,6 @@ from django.http import Http404, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 
 
-
 def index(request):
     specialposts = Post.objects.filter(
         is_special=True).order_by('-updated_at')[:4]
@@ -17,19 +16,30 @@ def index(request):
 def post_page(request, pslug):
     the_post = get_object_or_404(Post, slug=pslug)
     category = Category.objects.get(id=the_post.category_id)
+    tags = the_post.posttag.all()
     return render(request, 'blog/post.html', {
         'post': the_post,
-        'category': category.__str__
+        'category': category,
+        'category_name': category.__str__,
+        'tags': tags
     })
 
 
 def cat_page(request, cat_slug):
     the_cat = get_object_or_404(Category, slug=cat_slug)
-    catpost = Category.objects.get(slug=cat_slug)
-    category_posts = list(catpost.categories.all())
+    category_posts = Category.get_category_posts(cat_slug)
     return render(request, 'blog/category.html', {
         'cat': the_cat,
         'catposts': category_posts
+    })
+
+
+def tag_page(request, tag_slug):
+    the_tag = get_object_or_404(Tag, slug=tag_slug)
+    tag_posts = Tag.get_tag_posts(tag_slug)
+    return render(request, 'blog/tag.html', {
+        'tag': the_tag,
+        'tagposts': tag_posts
     })
 
 
@@ -56,6 +66,13 @@ def pages(request, page):
         return render(request, 'blog/categories.html', {
             'title': 'all categories',
             'categories': allcats
+
+        })
+    elif page == 'tags':
+        alltags = Tag.objects.all()
+        return render(request, 'blog/tags.html', {
+            'title': 'all Tags',
+            'tags': alltags
 
         })
     else:

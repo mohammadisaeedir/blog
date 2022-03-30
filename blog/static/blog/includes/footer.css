@@ -2,10 +2,13 @@
     padding: 10px 0 0 0;
     margin: 0;
     clear: both;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 .footer p {
-    background-color: #5dbf5d;
+    background-color: #2a70ca;
     text-align: center;
     /* bottom: 0;
     position: fixed; */
@@ -23,5 +26,5 @@
 
 .footer a:hover,
 .footer a:active {
-    color: brown;
+    color: cyan;
 }

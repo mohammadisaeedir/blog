@@ -21,7 +21,7 @@ a {
 
 a:hover,
 a:active {
-    color: #16a016;
+    color: #2a70ca;
 }
 
 ul {
@@ -35,7 +35,7 @@ li {
 }
 
 #top-cats {
-    margin: 4rem 0;
+    margin: 1rem 0;
 }
 
 .nopost {

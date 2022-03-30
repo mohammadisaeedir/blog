@@ -6,4 +6,5 @@ urlpatterns = [
     path('<page>', views.pages, name='pages'),
     path('posts/<slug:pslug>', views.post_page, name='post_page'),
     path('categories/<slug:cat_slug>', views.cat_page, name='cat_page'),
+    path('tags/<slug:tag_slug>', views.tag_page, name='tag_page'),
 ]
