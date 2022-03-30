@@ -1,7 +1,7 @@
-from tkinter import Widget
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -124,7 +124,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to='static/blog/files', blank=True)
     is_special = models.BooleanField(default=False)
     excerpt = models.CharField(max_length=100, default='')
-    content = models.TextField(null=True)
+    content = RichTextField(null=True)
     posttag = models.ManyToManyField(
         Tag, blank=True, default=None, related_name='tags')
     slug = models.SlugField(null=False, db_index=True, blank=True)
@@ -159,3 +159,4 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return f'{self.title}, {self.posttag}'
+    

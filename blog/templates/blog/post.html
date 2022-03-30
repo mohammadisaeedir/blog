@@ -25,28 +25,26 @@
             {% else %}
                 <h4>
                     Tags:
-                    {% for tag in tags  %}
-                        <a href="{{tag.get_absolute_url}}">{{ tag.title }}</a>,
-                {% endfor %}
-            </h4>
-        {% endif %}
-        {% if post.is_special == True %}
-            <h4 class='special'>Special Book</h4>
-        {% else %}
-            <h4>Normal Book</h4>
-        {% endif %}
-        <p>
-            <b>The Excerpt:</b> {{ post.excerpt }}
-    </p>
-    <time>
-        <b>Created at:</b> {{ post.created_at }}
-</time>
+                    {% for tag in tags  %}<a href="{{ tag.get_absolute_url }}">{{ tag.title }}</a>,{% endfor %}
+                </h4>
+            {% endif %}
+            {% if post.is_special == True %}
+                <h4 class='special'>Special Book</h4>
+            {% else %}
+                <h4>Normal Book</h4>
+            {% endif %}
+            <p>
+                <b>The Excerpt:</b> {{ post.excerpt }}
+        </p>
+        <time>
+            <b>Created at:</b> {{ post.created_at }}
+    </time>
 </br>
 <time>
     <b>Updated at:</b> {{ post.updated_at }}
 </time>
 <p>
-    {{ post.content|linebreaks }}
+    {{ post.content| safe }}
 </div>
 </article>
 {% endblock content %}
