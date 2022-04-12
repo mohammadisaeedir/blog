@@ -18,7 +18,7 @@
         {% endif %}
         <div class='tag'>
             <h3>
-                category: <a href="{% url 'cat_page' category.slug %}">{{ category_name }}</a>
+                category: <a href="{% url 'cat_page' category.slug %}">{{ post.category }}</a>
             </h3>
             {% if not tags %}
                 <h6>There is no tag available for this post</h6>
@@ -37,7 +37,7 @@
                 <b>The Excerpt:</b> {{ post.excerpt }}
         </p>
         <time>
-            <b>Created at:</b> {{ post.created_at | date:"M d"}} - {{ post.created_at |time:"H:i" }}
+            <b>Created at:</b> {{ post.created_at | date:"M d" }} - {{ post.created_at |time:"H:i" }}
     </time>
 </br>
 <time>
@@ -47,4 +47,21 @@
     {{ post.content| safe }}
 </div>
 </article>
+<div id='idform'>
+    <h2 id='formh2'>All Comments</h2>
+    <form action="{% url 'post_page' post.slug %}"
+          method="POST"
+          class='post-form'>
+        {% csrf_token %}
+        {% for item in comment_form %}
+            {{ item.label_tag }}
+            {{ item }}
+            {{ item.errors }}
+        {% endfor %}
+        <button>Send Comment</button>
+    </form>
+    <p class='successp'>
+        {{ success }}
+    </p>
+</div>
 {% endblock content %}

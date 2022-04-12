@@ -1,7 +1,9 @@
+from random import choices
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from ckeditor.fields import RichTextField
+from tomlkit import value
 
 # Create your models here.
 
@@ -20,7 +22,7 @@ class BlogOptions(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=30)
     order = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='static/blog/files', blank=True)
+    image = models.ImageField(upload_to='catimages', blank=True)
     slug = models.SlugField(null=False, unique=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL,
                                null=True, blank=True,)
@@ -63,8 +65,8 @@ class Category(models.Model):
         else:
             return f'{self.parent} -> {self.title}'
 
-    def get_category_posts(cat_slug):
-        catpost = Category.objects.get(slug=cat_slug)
+    def get_category_posts(self):
+        catpost = Category.objects.get(slug=self.slug)
         category_posts = catpost.categories.all()
         return category_posts
 
@@ -121,7 +123,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     category = models.ForeignKey(
         'Category', on_delete=models.SET_NULL, null=True, blank=True, related_name='categories')
-    image = models.ImageField(upload_to='static/blog/files', blank=True)
+    image = models.ImageField(upload_to='posts', blank=True)
     is_special = models.BooleanField(default=False)
     excerpt = models.CharField(max_length=100, default='')
     content = RichTextField(null=True)
@@ -158,5 +160,17 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return f'{self.title}, {self.posttag}'
+        return f'{self.title} ({self.id})'
+
+
+class Comment(models.Model):
+    user_name = models.CharField(max_length=50)
+    body = models.TextField()
+    is_active = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     
+
+    def __str__(self):
+        return f'{self.post}: {self.user_name}'

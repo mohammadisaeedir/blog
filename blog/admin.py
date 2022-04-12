@@ -34,7 +34,7 @@ class PostAdmin(admin.ModelAdmin):
     def get_view(self, obj):
         return mark_safe('<a href="{}" target=blank>{}</a>'.format(reverse("post_page", args=(obj.slug,)), obj.slug))
     get_view.short_description = 'View'
-    
+
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('title', 'order', 'slug',
@@ -49,7 +49,13 @@ class TagAdmin(admin.ModelAdmin):
     post_link.short_description = 'Posts'
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user_name', 'post', 'is_active',)
+    list_filter = ('is_active',)
+
+
 admin.site.register(BlogOptions, BlogOptionsAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(Comment, CommentAdmin)

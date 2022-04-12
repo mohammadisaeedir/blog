@@ -3,10 +3,6 @@ h1 {
     text-underline-offset: 1px solid;
 }
 
-p {
-    width: 80%;
-}
-
 .img-post {
     float: right;
     border-radius: 10px;
@@ -21,11 +17,18 @@ article {
 }
 
 #tag {
-    background-color: #4788dd;
     color: white;
-    padding: 4px 8px;
-    margin-right: 3px;
-    border-radius: 4px;
+    background-color: #4788dd;
+    border: 1px solid #4788dd;
+    padding: 0.1rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    margin-right: 0.2rem;
+}
+
+#tag:hover {
+    background-color: #5290e1;
 }
 
 .tag a {
@@ -34,4 +37,55 @@ article {
 
 .content {
     font-size: 13px;
+    width: 80%;
+}
+
+.post-form {
+    text-align: center;
+}
+
+form textarea {
+    width: 480px;
+    height: 60px;
+}
+
+form label {
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+form button {
+    color: white;
+    background-color: #4788dd;
+    border: 1px solid #4788dd;
+    padding: 0.5rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+form button:hover {
+    background-color: #5290e1;
+}
+
+#idform {
+    padding: 1rem 0 2rem;
+    width: 90%;
+    margin: 3rem auto;
+    background-color: aliceblue;
+    border-radius: 6px;
+}
+
+form * {
+    vertical-align: middle
+}
+
+#formh2 {
+    text-decoration: underline;
+    text-align: center;
+    color: #4788dd;
+}
+
+.successp {
+    text-align: center;
 }
