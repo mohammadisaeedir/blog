@@ -7,7 +7,7 @@ from ckeditor.fields import RichTextField
 
 
 class BlogOptions(models.Model):
-    about = models.TextField()
+    about = RichTextField()
     phone = models.CharField(max_length=18)
     email = models.EmailField()
     address = models.CharField(max_length=100)
@@ -21,7 +21,7 @@ class Category(models.Model):
     title = models.CharField(max_length=30)
     order = models.PositiveIntegerField()
     image = models.ImageField(upload_to='static/blog/files', blank=True)
-    slug = models.SlugField(null=False, db_index=True, blank=True)
+    slug = models.SlugField(null=False, unique=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL,
                                null=True, blank=True,)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -72,7 +72,7 @@ class Category(models.Model):
 class Tag(models.Model):
     title = models.CharField(max_length=40)
     order = models.PositiveIntegerField(default=1)
-    slug = models.SlugField(null=False, db_index=True, blank=True)
+    slug = models.SlugField(null=False, unique=True, blank=True)
 
     def __str__(self) -> str:
         return self.title
@@ -127,7 +127,7 @@ class Post(models.Model):
     content = RichTextField(null=True)
     posttag = models.ManyToManyField(
         Tag, blank=True, default=None, related_name='tags')
-    slug = models.SlugField(null=False, db_index=True, blank=True)
+    slug = models.SlugField(null=False, unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

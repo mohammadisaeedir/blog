@@ -8,5 +8,5 @@
 {% endblock css %}
 {% block about %}
     <h1>{{ title|title }}</h1>
-    <div class='p-about'>{{ options.about|linebreaks }}</div>
+    <div class='p-about'>{{ options.about|safe }}</div>
 {% endblock about %}

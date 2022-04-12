@@ -16,7 +16,7 @@
         {% else %}
             <img class='img-post' src="{{ post.image.url }}", alt="{{ post.title }}">
         {% endif %}
-        <div>
+        <div class='tag'>
             <h3>
                 category: <a href="{% url 'cat_page' category.slug %}">{{ category_name }}</a>
             </h3>
@@ -25,7 +25,7 @@
             {% else %}
                 <h4>
                     Tags:
-                    {% for tag in tags  %}<a href="{{ tag.get_absolute_url }}">{{ tag.title }}</a>,{% endfor %}
+                    {% for tag in tags  %}<a href="{{ tag.get_absolute_url }}"><span id='tag'>{{ tag.title }}</span></a>{% endfor %}
                 </h4>
             {% endif %}
             {% if post.is_special == True %}
@@ -37,13 +37,13 @@
                 <b>The Excerpt:</b> {{ post.excerpt }}
         </p>
         <time>
-            <b>Created at:</b> {{ post.created_at }}
+            <b>Created at:</b> {{ post.created_at | date:"M d"}} - {{ post.created_at |time:"H:i" }}
     </time>
 </br>
 <time>
-    <b>Updated at:</b> {{ post.updated_at }}
+    <b>Updated at:</b> {{ post.updated_at|date:"SHORT_DATE_FORMAT" }}
 </time>
-<p>
+<p class='content'>
     {{ post.content| safe }}
 </div>
 </article>

@@ -19,3 +19,19 @@ article {
 .special {
     color: red;
 }
+
+#tag {
+    background-color: #4788dd;
+    color: white;
+    padding: 4px 8px;
+    margin-right: 3px;
+    border-radius: 4px;
+}
+
+.tag a {
+    text-decoration: none;
+}
+
+.content {
+    font-size: 13px;
+}
