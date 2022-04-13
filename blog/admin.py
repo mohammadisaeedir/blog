@@ -52,6 +52,7 @@ class TagAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('user_name', 'post', 'is_active',)
     list_filter = ('is_active',)
+    list_editable = ('is_active',)
 
 
 admin.site.register(BlogOptions, BlogOptionsAdmin)

@@ -58,10 +58,11 @@ form button {
     color: white;
     background-color: #4788dd;
     border: 1px solid #4788dd;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 0.8rem;
     border-radius: 6px;
     cursor: pointer;
     font-family: inherit;
+    margin: auto 0.2rem;
 }
 
 form button:hover {
@@ -88,4 +89,29 @@ form * {
 
 .successp {
     text-align: center;
+}
+
+#confirmed {
+    color: black;
+    background-color: aquamarine;
+    width: 8%;
+    padding: 0.2rem 0.3rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 25px 12px;
+    font-size: small;
+}
+
+.profile-photo-sm {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-top: 6px;
+}
+
+.post-comment {
+    display: inline-flex;
+    margin: 10px 10px;
+    width: 95%;
+    background-color: white;
 }

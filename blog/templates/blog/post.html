@@ -63,5 +63,17 @@
     <p class='successp'>
         {{ success }}
     </p>
+    {% for cm in comments %}
+        <div class='post-comment'>
+            <img class="profile-photo-sm"
+                 src="{% static 'files/avatar.png' %}"
+                 alt="avatar">
+            <p>
+                <b>{{ cm.user_name | title }} </b>| {{ cm.created_at|date:"Y M d" }} - {{ post.created_at |time:"H:i" }} <span id='confirmed'>Confirmed</span>
+                <br>
+                {{ cm.body }}
+            </p>
+        </div>
+    {% endfor %}
 </div>
 {% endblock content %}
