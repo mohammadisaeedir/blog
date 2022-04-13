@@ -61,11 +61,13 @@ class PostView(View):
         the_post = get_object_or_404(Post, slug=slug)
         category = Category.objects.get(id=the_post.category_id)
         tags = the_post.posttag.all()
+        comments = Comment.objects.filter(post=the_post.id, is_active=True).order_by('-created_at')
         context = {
             'post': the_post,
             'category': category,
             'tags': tags,
             'comment_form': CommentForm(),
+            'comments': comments,
         }
         return render(request, 'blog/post.html', context)
 
@@ -74,6 +76,7 @@ class PostView(View):
         the_post = get_object_or_404(Post, slug=slug)
         category = Category.objects.get(id=the_post.category_id)
         tags = the_post.posttag.all()
+        comments = Comment.objects.filter(post=the_post.id, is_active=True).order_by('-created_at')
 
         if formcomment.is_valid():
             comment = formcomment.save(commit=False)
@@ -83,12 +86,14 @@ class PostView(View):
             the_post = get_object_or_404(Post, slug=slug)
             category = Category.objects.get(id=the_post.category_id)
             tags = the_post.posttag.all()
+            comments = Comment.objects.filter(post=the_post.id, is_active=True).order_by('-created_at')
             context = {
                 'post': the_post,
                 'category': category,
                 'tags': tags,
                 'comment_form': CommentForm(),
                 'success': 'Thankyou, Your comment After Review by Admin, will display',
+                'comments': comments,
             }
 
             return render(request, 'blog/post.html', context)
@@ -98,6 +103,7 @@ class PostView(View):
             'category': category,
             'tags': tags,
             'comment_form': CommentForm,
+            'comments': comments,
         }
         return render(request, 'blog/post.html', context)
 
