@@ -35,6 +35,11 @@
             {% endif %}
             <p>
                 <b>The Excerpt:</b> {{ post.excerpt }}
+            <form action="{% url 'read-later' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <button class='readlater'> -> Read Later</button>
+            </form>
         </p>
         <time>
             <b>Created at:</b> {{ post.created_at | date:"M d" }} - {{ post.created_at |time:"H:i" }}
@@ -48,15 +53,21 @@
 </div>
 </article>
 <div id='idform'>
-    <h2 id='formh2'>All Comments</h2>
+    <h2 id='formh2'>
+        {% if comments.count > 0 %}
+            All  {{ comments.count }} Comment(s)
+        {% else %}
+            No Comments Available
+        {% endif %}
+    </h2>
     <form action="{% url 'post_page' post.slug %}"
           method="POST"
           class='post-form'>
         {% csrf_token %}
-        {% for item in comment_form %}
-            {{ item.label_tag }}
-            {{ item }}
-            {{ item.errors }}
+        {% for field  in comment_form %}
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
         {% endfor %}
         <button>Send Comment</button>
     </form>

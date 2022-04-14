@@ -1,9 +1,7 @@
-from random import choices
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from ckeditor.fields import RichTextField
-from tomlkit import value
 
 # Create your models here.
 
@@ -161,6 +159,10 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return f'{self.title} ({self.id})'
+    
+    def cmCounts(self):
+        mypost = Post.objects.get(pk=self.id)
+        return mypost.comments.filter(is_active=True).count()
 
 
 class Comment(models.Model):
@@ -169,8 +171,12 @@ class Comment(models.Model):
     is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='comments')
 
     def __str__(self):
         return f'{self.post}: {self.user_name}'
+    
+    def commentsCount(self):
+        return Comment.objects.filter(post=self.id, is_active=True).count()
+

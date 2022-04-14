@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.MainPage.as_view(), name='url_index'),
+    path('readlater', views.ReadLater.as_view(), name='read-later'),
     path('<page>', views.pages, name='pages'),
     
     # path('posts/<slug:pslug>', views.post_page, name='post_page'),

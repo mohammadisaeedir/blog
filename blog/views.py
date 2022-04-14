@@ -1,6 +1,5 @@
-from webbrowser import get
 from .models import *
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
@@ -58,10 +57,12 @@ class MainPage(TemplateView):
 
 class PostView(View):
     def get(self, request, slug):
+        # the_post = Post.objects.get(slug=slug) # another way
         the_post = get_object_or_404(Post, slug=slug)
         category = Category.objects.get(id=the_post.category_id)
         tags = the_post.posttag.all()
-        comments = Comment.objects.filter(post=the_post.id, is_active=True).order_by('-created_at')
+        comments = Comment.objects.filter(
+            post=the_post.id, is_active=True).order_by('-created_at')
         context = {
             'post': the_post,
             'category': category,
@@ -76,7 +77,8 @@ class PostView(View):
         the_post = get_object_or_404(Post, slug=slug)
         category = Category.objects.get(id=the_post.category_id)
         tags = the_post.posttag.all()
-        comments = Comment.objects.filter(post=the_post.id, is_active=True).order_by('-created_at')
+        comments = Comment.objects.filter(
+            post=the_post.id, is_active=True).order_by('-created_at')
 
         if formcomment.is_valid():
             comment = formcomment.save(commit=False)
@@ -86,7 +88,8 @@ class PostView(View):
             the_post = get_object_or_404(Post, slug=slug)
             category = Category.objects.get(id=the_post.category_id)
             tags = the_post.posttag.all()
-            comments = Comment.objects.filter(post=the_post.id, is_active=True).order_by('-created_at')
+            comments = Comment.objects.filter(
+                post=the_post.id, is_active=True).order_by('-created_at')
             context = {
                 'post': the_post,
                 'category': category,
@@ -97,15 +100,16 @@ class PostView(View):
             }
 
             return render(request, 'blog/post.html', context)
-
-        context = {
-            'post': the_post,
-            'category': category,
-            'tags': tags,
-            'comment_form': CommentForm,
-            'comments': comments,
-        }
-        return render(request, 'blog/post.html', context)
+        else:
+            formcomment = CommentForm()
+            context = {
+                'post': the_post,
+                'category': category,
+                'tags': tags,
+                'comment_form': formcomment,
+                'comments': comments,
+            }
+            return render(request, 'blog/post.html', context)
 
 
 # oldway
@@ -127,6 +131,7 @@ class CategoryPage(DetailView):
         context = super().get_context_data(**kwargs)
         context["catposts"] = self.object.categories.all()
         return context
+
 
 # oldway
 # def tag_page(request, tag_slug):
@@ -165,7 +170,7 @@ def pages(request, page):
         allposts = Post.objects.all()
         return render(request, 'blog/posts.html', {
             'title': 'all posts',
-            'posts': allposts
+            'posts': allposts,
         })
     elif page == 'categories':
         allcats = Category.objects.all()
@@ -183,3 +188,29 @@ def pages(request, page):
         })
     else:
         raise Http404()
+
+
+class ReadLater(View):
+    def get(self, request):
+        stored_posts = request.session.get("session_stored_posts")
+        context = {}
+        if stored_posts is None or len(stored_posts) == 0:
+            context['has_posts'] = False
+            context['posts'] = []
+        else:
+            posts = Post.objects.filter(id__in=stored_posts)
+            context['has_posts'] = True
+            context['posts'] = posts
+        
+        return render(request, 'blog/readlater.html', context)
+
+    def post(self, request):
+        stored_posts = request.session.get("session_stored_posts")
+        if stored_posts is None:
+            stored_posts = []
+        
+        post_id = int(request.POST["post_id"])
+        if post_id not in stored_posts:
+            stored_posts.append(post_id)
+            request.session["session_stored_posts"] = stored_posts
+        return HttpResponseRedirect('readlater')
