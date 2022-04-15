@@ -35,11 +35,19 @@
             {% endif %}
             <p>
                 <b>The Excerpt:</b> {{ post.excerpt }}
-            <form action="{% url 'read-later' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="post_id" value="{{ post.id }}">
-                <button class='readlater'> -> Read Later</button>
-            </form>
+            {% if read_later %}
+                <form action="{% url 'read-later' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="del_post_id" value="{{ post.id }}">
+                    <button class='delreadlater'>-> remove</button>
+                </form>
+            {% else %}
+                <form action="{% url 'read-later' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <button class='readlater'>-> Read Later</button>
+                </form>
+            {% endif %}
         </p>
         <time>
             <b>Created at:</b> {{ post.created_at | date:"M d" }} - {{ post.created_at |time:"H:i" }}

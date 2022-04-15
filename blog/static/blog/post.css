@@ -118,7 +118,7 @@ form * {
 
 .readlater {
     color: black;
-    background-color: coral;
+    background-color: rgb(9, 174, 17);
     width: 8%;
     padding: 0.2rem 0.3rem;
     text-align: center;
@@ -128,5 +128,20 @@ form * {
 }
 
 .readlater:hover {
-    background-color: rgb(245, 151, 118);
+    background-color: rgb(46, 219, 55);
+}
+
+.delreadlater {
+    color: black;
+    background-color: rgb(255, 80, 80);
+    width: 8%;
+    padding: 0.2rem 0.3rem;
+    text-align: center;
+    border-radius: 7px;
+    font-size: small;
+    cursor: pointer;
+}
+
+.delreadlater:hover {
+    background-color: rgb(245, 118, 118);
 }

@@ -61,6 +61,11 @@ class PostView(View):
         the_post = get_object_or_404(Post, slug=slug)
         category = Category.objects.get(id=the_post.category_id)
         tags = the_post.posttag.all()
+        stored_posts = request.session.get("session_stored_posts")
+        session_status = False
+        if stored_posts is not None:
+            if str(the_post.id) in stored_posts:
+                session_status = True
         comments = Comment.objects.filter(
             post=the_post.id, is_active=True).order_by('-created_at')
         context = {
@@ -68,7 +73,9 @@ class PostView(View):
             'category': category,
             'tags': tags,
             'comment_form': CommentForm(),
+            'success': '',
             'comments': comments,
+            'read_later': session_status,
         }
         return render(request, 'blog/post.html', context)
 
@@ -107,6 +114,7 @@ class PostView(View):
                 'category': category,
                 'tags': tags,
                 'comment_form': formcomment,
+                'success': '',
                 'comments': comments,
             }
             return render(request, 'blog/post.html', context)
@@ -201,16 +209,22 @@ class ReadLater(View):
             posts = Post.objects.filter(id__in=stored_posts)
             context['has_posts'] = True
             context['posts'] = posts
-        
+
         return render(request, 'blog/readlater.html', context)
 
     def post(self, request):
         stored_posts = request.session.get("session_stored_posts")
         if stored_posts is None:
             stored_posts = []
-        
-        post_id = int(request.POST["post_id"])
-        if post_id not in stored_posts:
-            stored_posts.append(post_id)
+
+        postid = request.POST.get("post_id")
+        if postid not in stored_posts and postid != None:
+            stored_posts.append(postid)
             request.session["session_stored_posts"] = stored_posts
+        
+        delpostid = request.POST.get("del_post_id")
+        if delpostid in stored_posts and delpostid != None:
+            stored_posts.remove(delpostid)
+            request.session["session_stored_posts"] = stored_posts
+
         return HttpResponseRedirect('readlater')
