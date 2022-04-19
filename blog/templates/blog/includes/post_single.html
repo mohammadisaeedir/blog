@@ -10,7 +10,7 @@
             <div class='post-info'>
                 <h3>{{ post.title|title }}</h3>
                 <time>
-                    {{ post.updated_at }}
+                    {{ post.updated_at| date:"M d" }} - {{ post.updated_at|time:"H:i"  }}  - {{ post.cmCounts }} Comments
                 </time>
                 <p>
                     {{ post.excerpt }}

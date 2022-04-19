@@ -1,0 +1,20 @@
+{% extends 'base_page.html' %}
+{% load static %}
+{% block title %}
+    Read Later Posts
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/page.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/includes/single-post.css' %}">
+{% endblock css %}
+{% block posts %}
+    <h1>Read Later</h1>
+    <ul>
+        {% if not has_posts %}
+            <img class='nopost' src="{% static 'files/nopost.jpg' %}" alt="no post">
+        {% endif %}
+        {% for post in posts %}
+            {% include 'blog/includes/post_single.html' %}
+        {% endfor %}
+    </ul>
+{% endblock posts %}

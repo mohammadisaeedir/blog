@@ -1,0 +1,20 @@
+.li-sec {
+    display: inline-block;
+    margin: 5px 0 34px 5px;
+}
+
+h4 {
+    background-color: #68e186e8;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover,
+a:active {
+    color: white
+}
