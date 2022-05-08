@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from .forms import CommentForm
 from django.views import View
-
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 
 # Old Way
 # def index(request):
@@ -28,6 +28,7 @@ class MainPage(TemplateView):
         context['categories'] = Category.objects.all().order_by('-order')[:4]
         return context
 
+
 # oldway
 # def post_page(request, pslug):
 #     the_post = get_object_or_404(Post, slug=pslug)
@@ -39,7 +40,6 @@ class MainPage(TemplateView):
 #         'category_name': category.__str__,
 #         'tags': tags
 #     })
-
 
 # the way for jus show the post without comment form
 # class PostView(DetailView):
@@ -55,6 +55,7 @@ class MainPage(TemplateView):
 
 
 class PostView(View):
+
     def get(self, request, slug):
         # the_post = Post.objects.get(slug=slug) # another way
         the_post = get_object_or_404(Post, slug=slug)
@@ -101,7 +102,8 @@ class PostView(View):
                 'category': category,
                 'tags': tags,
                 'comment_form': CommentForm(),
-                'success': 'Thankyou, Your comment After Review by Admin, will display',
+                'success':
+                'Thankyou, Your comment After Review by Admin, will display',
                 'comments': comments,
             }
 
@@ -175,29 +177,31 @@ def pages(request, page):
         })
     elif page == 'posts':
         allposts = Post.objects.all()
+        paginator = Paginator(allposts, 4)
+        page = request.GET.get('page')
+        paged_posts = paginator.get_page(page)
         return render(request, 'blog/posts.html', {
             'title': 'all posts',
-            'posts': allposts,
+            'posts': paged_posts,
         })
     elif page == 'categories':
         allcats = Category.objects.all()
         return render(request, 'blog/categories.html', {
             'title': 'all categories',
             'categories': allcats
-
         })
     elif page == 'tags':
         alltags = Tag.objects.all()
         return render(request, 'blog/tags.html', {
             'title': 'all Tags',
             'tags': alltags,
-
         })
     else:
         raise Http404()
 
 
 class ReadLater(View):
+
     def get(self, request):
         stored_posts = request.session.get("session_stored_posts")
         context = {}
@@ -220,7 +224,7 @@ class ReadLater(View):
         if postid not in stored_posts and postid != None:
             stored_posts.append(postid)
             request.session["session_stored_posts"] = stored_posts
-        
+
         delpostid = request.POST.get("del_post_id")
         if delpostid in stored_posts and delpostid != None:
             stored_posts.remove(delpostid)
