@@ -30,6 +30,7 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ('is_special', 'category')
     filter_horizontal = ('posttag',)
+    list_filter = ('category', 'is_special',)
 
     def get_view(self, obj):
         return mark_safe('<a href="{}" target=blank>{}</a>'.format(reverse("post_page", args=(obj.slug,)), obj.slug))
