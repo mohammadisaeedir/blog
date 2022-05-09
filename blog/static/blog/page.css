@@ -66,8 +66,7 @@ li {
 }
 
 .searchform input {
-    width: 50%;
-    height: 35px;
+    width: 40%;
 }
 
 .searchform form button {
@@ -83,4 +82,5 @@ li {
 
 .searchform form * {
     vertical-align: middle;
+    height: 35px;
 }

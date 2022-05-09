@@ -13,6 +13,18 @@
         <form action="/search">
             {% csrf_token %}
             <input type="search" name='keyword'>
+            <select name="special">
+                <option selected="true" disabled="disabled">Special</option>
+                {% for item in is_special %}
+                <option value="{{item}}">{{item}}</option>
+                {% endfor %}
+            </select>
+            <select name="category">
+                <option selected="true" disabled="disabled">Category</option>
+                {% for item in categories %}
+                <option value="{{item.id}}">{{item.title}}</option>
+                {% endfor %}
+            </select>
             <button>Search</button>
         </form>
     </div>

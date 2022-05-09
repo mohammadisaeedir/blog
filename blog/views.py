@@ -199,17 +199,37 @@ def pages(request, page):
         })
     elif page == 'search':
         allposts = Post.objects.all()
+        is_special = Post.objects.values_list('is_special',
+                                              flat=True).distinct()
+        categories = Category.objects.all()
+
         if 'keyword' in request.GET:
             keyword = request.GET['keyword']
             if keyword:
-                allposts = allposts.filter(Q(title__icontains=keyword) | Q(content__icontains=keyword))
+                allposts = allposts.filter(
+                    Q(title__icontains=keyword)
+                    | Q(content__icontains=keyword))
+        
+        if 'special' in request.GET:
+            special = request.GET['special']
+            if special:
+                allposts = allposts.filter(is_special=special)
+        
+        if 'category' in request.GET:
+            category = request.GET['category']
+            if category:
+                allposts = allposts.filter(category=category)
+
         paginator = Paginator(allposts, 4)
         page = request.GET.get('page')
         paged_posts = paginator.get_page(page)
-        return render(request, 'blog/search.html', {
-            'title': 'Search Posts',
-            'posts': paged_posts,
-        })
+        return render(
+            request, 'blog/search.html', {
+                'title': 'Search Posts',
+                'posts': paged_posts,
+                'is_special': is_special,
+                'categories': categories,
+            })
     else:
         raise Http404()
 
@@ -245,4 +265,3 @@ class ReadLater(View):
             request.session["session_stored_posts"] = stored_posts
 
         return HttpResponseRedirect('readlater')
-
