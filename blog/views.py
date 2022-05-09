@@ -1,3 +1,4 @@
+from django.db.models import Q
 from .models import *
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -5,7 +6,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from .forms import CommentForm
 from django.views import View
-from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
+from django.core.paginator import Paginator
 
 # Old Way
 # def index(request):
@@ -196,6 +197,19 @@ def pages(request, page):
             'title': 'all Tags',
             'tags': alltags,
         })
+    elif page == 'search':
+        allposts = Post.objects.all()
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            if keyword:
+                allposts = allposts.filter(Q(title__icontains=keyword) | Q(content__icontains=keyword))
+        paginator = Paginator(allposts, 4)
+        page = request.GET.get('page')
+        paged_posts = paginator.get_page(page)
+        return render(request, 'blog/search.html', {
+            'title': 'Search Posts',
+            'posts': paged_posts,
+        })
     else:
         raise Http404()
 
@@ -231,3 +245,4 @@ class ReadLater(View):
             request.session["session_stored_posts"] = stored_posts
 
         return HttpResponseRedirect('readlater')
+
