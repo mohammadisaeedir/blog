@@ -80,7 +80,7 @@
         <button>Send Comment</button>
     </form>
     <p class='successp'>
-        {{ success }}
+        {% include 'blog/includes/messages.html' %}
     </p>
     {% for cm in comments %}
         <div class='post-comment'>

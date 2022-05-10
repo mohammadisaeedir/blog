@@ -1,7 +1,8 @@
+from django.contrib import messages
 from django.db.models import Q
 from .models import *
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from .forms import CommentForm
@@ -74,7 +75,6 @@ class PostView(View):
             'category': category,
             'tags': tags,
             'comment_form': CommentForm(),
-            'success': '',
             'comments': comments,
             'read_later': session_status,
         }
@@ -98,17 +98,9 @@ class PostView(View):
             tags = the_post.posttag.all()
             comments = Comment.objects.filter(
                 post=the_post.id, is_active=True).order_by('-created_at')
-            context = {
-                'post': the_post,
-                'category': category,
-                'tags': tags,
-                'comment_form': CommentForm(),
-                'success':
-                'Thankyou, Your comment After Review by Admin, will display',
-                'comments': comments,
-            }
-
-            return render(request, 'blog/post.html', context)
+            
+            messages.success(request, 'Thankyou, Your comment After Review by Admin, will display')
+            return redirect('/posts/'+ slug)
         else:
             formcomment = CommentForm()
             context = {
@@ -116,7 +108,6 @@ class PostView(View):
                 'category': category,
                 'tags': tags,
                 'comment_form': formcomment,
-                'success': '',
                 'comments': comments,
             }
             return render(request, 'blog/post.html', context)
