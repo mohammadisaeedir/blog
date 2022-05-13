@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'blog',
     'ckeditor', 
     'ckeditor_uploader',
+    'accounts',
 ]
 X_FRAME_OPTIONS='SAMEORIGIN'
 
@@ -90,6 +91,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'myblog',
+        # 'USER': 'blogadmin',
+        # 'PASSWORD': '12345',
+        # 'HOST': 'localhost',
+        # 'PORT':'5432',
     }
 }
 

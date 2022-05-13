@@ -1,0 +1,41 @@
+{% extends 'base_page.html' %}
+{% load static %}
+{% block title %}
+    My Comments
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'accounts/base.css' %}">
+    <link rel="stylesheet" href= {% static 'blog/post.css' %}>
+{% endblock css %}
+{% block form %}
+    <div id='idform'>
+        <h2 id='formh2'>
+            {% include 'messages.html' %}
+            {% if comments.count > 0 %}
+                All  {{ comments.count }} Comment(s)
+            {% else %}
+                No Comments Available
+            {% endif %}
+        </h2>
+        {% for cm in comments %}
+            <div class='post-comment'>
+                <img class="profile-photo-sm"
+                     src="{% static 'files/avatar.png' %}"
+                     alt="avatar">
+                <p>
+                    <b>{{ cm.user_name | title }} </b>| {{ cm.created_at|date:"Y M d" }} - {{ post.created_at |time:"H:i" }}
+                <span id='{% if cm.is_active %}confirmed{% else %}notconfirmed{% endif %}'>
+                    {% if cm.is_active %}
+                        Confirmed
+                    {% else %}
+                        Not Confirmed
+                    {% endif %}
+                </span>
+                <span><a href="{% url 'post_page' cm.post.slug %}">{{ cm.post }}</a></span>
+                <br>
+                {{ cm.body }}
+            </p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock form %}

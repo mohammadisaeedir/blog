@@ -102,6 +102,17 @@ form * {
     font-size: small;
 }
 
+#notconfirmed {
+    color: black;
+    background-color: rgb(255, 127, 127);
+    width: 8%;
+    padding: 0.2rem 0.3rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 25px 12px;
+    font-size: small;
+}
+
 .profile-photo-sm {
     height: 50px;
     width: 50px;
@@ -144,14 +155,4 @@ form * {
 
 .delreadlater:hover {
     background-color: rgb(245, 118, 118);
-}
-
-.messages li {
-    list-style: none;
-    text-align: center;
-    background-color: aquamarine;
-    width: 70%;
-    border-radius: 5px;
-    margin: auto;
-    padding: 5px 0;
 }

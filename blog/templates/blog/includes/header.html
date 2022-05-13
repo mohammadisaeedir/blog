@@ -1,4 +1,39 @@
 {% load static %}
+<div class='top-header'>
+    {% if user.is_authenticated %}
+        <p style="float: left; margin: 0 16px;">
+            Welcome to my website <span style="color:red ;">{{user.last_name}}, {{user.first_name}}</span>
+        </p>
+    {% endif %}
+    <ul id="topheader">
+        {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% comment %} second way for logout: BEST {% endcomment %}
+            {% comment %} <li>
+                <a href="javascript:{documnet.getElementById('logout').submit()}">Logout</a>
+                <form action="{% url 'logout' %}" id="logout" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden">      
+                </form>
+            </li> {% endcomment %}
+            <li>
+                <a href="{% url 'mycomments' %}">My Comments</a>
+            </li>
+            <li>
+                <a href="{% url 'profile' %}">Profile</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{% url 'register' %}">Register</a>
+            </li>
+            <li>
+                <a href="{% url 'login' %}">Login</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
 <header>
     <nav>
         <a href="{% url 'url_index' %}">Home</a>
@@ -11,4 +46,6 @@
         <a href="{% url 'pages' 'search' %}">Search</a>
     </nav>
 </header>
-<img class='header-img' src="{% static 'files/main.jpg' %}" alt="main_page">
+<img class='header-img'
+     src="{% static 'files/main.jpg' %}"
+     alt="main_page">

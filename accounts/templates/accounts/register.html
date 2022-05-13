@@ -1,0 +1,25 @@
+{% extends 'base_page.html' %}
+{% load static %}
+{% block title %}
+    Register
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'accounts/base.css' %}">
+{% endblock css %}
+{% block form %}
+    <div class="registerform">
+        <h1>Register Form</h1>
+        {% include 'messages.html' %}
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="firstname" placeholder="Fisrt Name">
+            <input type="text" name="lastname" placeholder="Last Name">
+            <input type="text" name="username" placeholder="User Name">
+            <input type="email" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="confirm_password" placeholder="Confirm Password">
+            <br>
+            <button>Register Form</button>
+        </form>
+    </div>
+{% endblock form %}

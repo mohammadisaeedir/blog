@@ -74,7 +74,7 @@ class PostView(View):
             'post': the_post,
             'category': category,
             'tags': tags,
-            'comment_form': CommentForm(),
+            'comment_form': CommentForm(initial={"user_name": request.user.username}),
             'comments': comments,
             'read_later': session_status,
         }
@@ -91,6 +91,8 @@ class PostView(View):
         if formcomment.is_valid():
             comment = formcomment.save(commit=False)
             comment.post = the_post
+            if request.user.is_authenticated:
+                comment.user_name = request.user.username
             comment.save()
             # return HttpResponseRedirect(reverse('post_page', args=[slug]))
             the_post = get_object_or_404(Post, slug=slug)
