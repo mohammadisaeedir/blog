@@ -23,3 +23,37 @@ header nav a:hover,
 header nav a:active {
     color: black;
 }
+
+#topheader {
+    padding: 0 10px;
+    margin: 0 2px;
+    display: inline-block;
+    position: relative;
+    list-style: none;
+}
+
+#topheader li {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.top-header {
+    background-color: #2a70ca38;
+    direction: rtl;
+}
+
+#topheader li a {
+    text-decoration: none;
+}
+
+#topheader li a:hover {
+    color: darkblue;
+}
+
+#topheader li a:active {
+    color: white;
+}
+
+#topheader li a:visited {
+    color: black;
+}

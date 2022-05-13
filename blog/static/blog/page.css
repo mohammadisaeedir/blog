@@ -60,3 +60,27 @@ li {
     margin-left: auto;
     margin-right: auto;
 }
+
+.searchform {
+    text-align: center;
+}
+
+.searchform input {
+    width: 40%;
+}
+
+.searchform form button {
+    color: white;
+    background-color: #4788dd;
+    border: 1px solid #4788dd;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    margin: auto 0.2rem;
+}
+
+.searchform form * {
+    vertical-align: middle;
+    height: 35px;
+}

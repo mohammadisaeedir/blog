@@ -18,3 +18,13 @@ body {
     width: 100%;
     border-radius: 0%;
 }
+
+.messages li {
+    list-style: none;
+    text-align: center;
+    background-color: rgba(202, 200, 42, 0.21);
+    width: 70%;
+    border-radius: 5px;
+    margin: auto;
+    padding: 5px 0;
+}

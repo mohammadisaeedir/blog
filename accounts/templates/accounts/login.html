@@ -1,0 +1,26 @@
+{% extends 'base_page.html' %}
+{% load static %}
+{% block title %}
+    Login
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'accounts/base.css' %}">
+{% endblock css %}
+{% block form %}
+    <div class="registerform">
+        <h1>Login Form</h1>
+        {% include 'messages.html' %}
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="User Name">
+            <input type="password" name="password" placeholder="Password">
+            <br>
+            <button>Login Form</button>
+        </form>
+        <h3>Or Login by?</h3>
+        <ul class="social">
+            <li style="background-color:red"><a href="">Google</a></li>
+            <li style="background-color:blue"><a href="">Facebook</a></li>
+        </ul>
+    </div>
+{% endblock form %}

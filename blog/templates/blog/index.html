@@ -11,7 +11,7 @@
     <h1>Welcome to My Blog</h1>
     <section id='latest_news'>
         <h2>Special Posts</h2>
-        <ul>
+        <ul class="homeitems">
             {% for post in posts %}
             {% include 'blog/includes/post_single.html' %}
             {% endfor %}
@@ -19,7 +19,7 @@
     </section>
     <section id='top_categories'>
         <h2>Top Categories</h2>
-        <ul>
+        <ul class="homeitems">
             {% for cat in categories %}
             {% include 'blog/includes/cat_single.html' %}
             {% endfor %}

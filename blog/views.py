@@ -1,11 +1,13 @@
+from django.contrib import messages
+from django.db.models import Q
 from .models import *
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
 from .forms import CommentForm
 from django.views import View
-from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
+from django.core.paginator import Paginator
 
 # Old Way
 # def index(request):
@@ -72,8 +74,7 @@ class PostView(View):
             'post': the_post,
             'category': category,
             'tags': tags,
-            'comment_form': CommentForm(),
-            'success': '',
+            'comment_form': CommentForm(initial={"user_name": request.user.username}),
             'comments': comments,
             'read_later': session_status,
         }
@@ -90,6 +91,8 @@ class PostView(View):
         if formcomment.is_valid():
             comment = formcomment.save(commit=False)
             comment.post = the_post
+            if request.user.is_authenticated:
+                comment.user_name = request.user.username
             comment.save()
             # return HttpResponseRedirect(reverse('post_page', args=[slug]))
             the_post = get_object_or_404(Post, slug=slug)
@@ -97,17 +100,9 @@ class PostView(View):
             tags = the_post.posttag.all()
             comments = Comment.objects.filter(
                 post=the_post.id, is_active=True).order_by('-created_at')
-            context = {
-                'post': the_post,
-                'category': category,
-                'tags': tags,
-                'comment_form': CommentForm(),
-                'success':
-                'Thankyou, Your comment After Review by Admin, will display',
-                'comments': comments,
-            }
-
-            return render(request, 'blog/post.html', context)
+            
+            messages.success(request, 'Thankyou, Your comment After Review by Admin, will display')
+            return redirect('/posts/'+ slug)
         else:
             formcomment = CommentForm()
             context = {
@@ -115,7 +110,6 @@ class PostView(View):
                 'category': category,
                 'tags': tags,
                 'comment_form': formcomment,
-                'success': '',
                 'comments': comments,
             }
             return render(request, 'blog/post.html', context)
@@ -196,6 +190,39 @@ def pages(request, page):
             'title': 'all Tags',
             'tags': alltags,
         })
+    elif page == 'search':
+        allposts = Post.objects.all()
+        is_special = Post.objects.values_list('is_special',
+                                              flat=True).distinct()
+        categories = Category.objects.all()
+
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            if keyword:
+                allposts = allposts.filter(
+                    Q(title__icontains=keyword)
+                    | Q(content__icontains=keyword))
+        
+        if 'special' in request.GET:
+            special = request.GET['special']
+            if special:
+                allposts = allposts.filter(is_special=special)
+        
+        if 'category' in request.GET:
+            category = request.GET['category']
+            if category:
+                allposts = allposts.filter(category=category)
+
+        paginator = Paginator(allposts, 4)
+        page = request.GET.get('page')
+        paged_posts = paginator.get_page(page)
+        return render(
+            request, 'blog/search.html', {
+                'title': 'Search Posts',
+                'posts': paged_posts,
+                'is_special': is_special,
+                'categories': categories,
+            })
     else:
         raise Http404()
 
