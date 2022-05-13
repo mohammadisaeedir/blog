@@ -102,6 +102,17 @@ form * {
     font-size: small;
 }
 
+#notconfirmed {
+    color: black;
+    background-color: rgb(255, 127, 127);
+    width: 8%;
+    padding: 0.2rem 0.3rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 25px 12px;
+    font-size: small;
+}
+
 .profile-photo-sm {
     height: 50px;
     width: 50px;

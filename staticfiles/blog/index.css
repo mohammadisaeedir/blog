@@ -4,7 +4,7 @@ h2 {
     text-align: center;
 }
 
-ul {
+.homeitems {
     position: relative;
     list-style: none;
     display: inline-block;
