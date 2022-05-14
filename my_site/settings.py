@@ -32,8 +32,10 @@ ALLOWED_HOSTS = [
     # getenv("APP_HOSTS")
 ]
 
+# for social login
 LOGIN_REDIRECT_URL = 'profile'
-# Application definition
+# ctbourse@gmail.com for console.developers.google.com
+
 
 INSTALLED_APPS = [
      # django theme

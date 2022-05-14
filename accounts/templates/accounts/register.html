@@ -1,5 +1,8 @@
 {% extends 'base_page.html' %}
 {% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
+
 {% block title %}
     Register
 {% endblock title %}
@@ -21,5 +24,11 @@
             <br>
             <button>Register Form</button>
         </form>
+        <h3>Or Login by?</h3>
+        <ul class="social">
+            <li style="background-color:red"><a href="{% provider_login_url 'google' %}">Google</a></li>
+            <li style="background-color:blue"><a href="{% provider_login_url 'facebook' method='oauth2' %}">Facebook</a></li>
+            {% comment %} <li style="background-color:blue"><a href="{% provider_login_url 'facebook' method='js_sdk' %}">Facebook</a></li> {% endcomment %}
+        </ul>
     </div>
 {% endblock form %}
