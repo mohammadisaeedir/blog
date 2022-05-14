@@ -32,22 +32,38 @@ ALLOWED_HOSTS = [
     # getenv("APP_HOSTS")
 ]
 
+# for social login
+LOGIN_REDIRECT_URL = 'profile'
+# ctbourse@gmail.com for console.developers.google.com
 
-# Application definition
 
 INSTALLED_APPS = [
+     # django theme
     'admin_interface',
     'colorfield',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
+    
     'ckeditor', 
     'ckeditor_uploader',
+
     'accounts',
+    'blog',
+    
+    # social login
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # providers
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+
 ]
 X_FRAME_OPTIONS='SAMEORIGIN'
 
@@ -169,3 +185,5 @@ CKEDITOR_CONFIGS = {
         'extraPlugins': 'justify,liststyle,indent',
    },
 }
+
+SITE_ID = 1
