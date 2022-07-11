@@ -9,6 +9,13 @@ from .forms import CommentForm
 from django.views import View
 from django.core.paginator import Paginator
 
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
+from django.conf import settings
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
+
 # Old Way
 # def index(request):
 #     specialposts = Post.objects.filter(
@@ -60,7 +67,11 @@ class PostView(View):
 
     def get(self, request, slug):
         # the_post = Post.objects.get(slug=slug) # another way
-        the_post = get_object_or_404(Post, slug=slug)
+        if cache.get(slug):
+            the_post = cache.get(slug)    
+        else:
+            the_post = get_object_or_404(Post, slug=slug)
+            cache.set(slug, the_post, 100)
         category = Category.objects.get(id=the_post.category_id)
         tags = the_post.posttag.all()
         stored_posts = request.session.get("session_stored_posts")
